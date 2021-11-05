@@ -4,7 +4,9 @@ This is an extensive tutorial on regex, how it works, and how to use it
 
 ## Summary
 
-Briefly summarize the regex you will be describing and what you will explain. Include a code snippet of the regex. Replace this text with your summary.
+The regular expression I will be defining is one that verifies whether or not a string is an e-mail:
+
+`/^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/`
 
 ## Table of Contents
 
@@ -26,42 +28,29 @@ Briefly summarize the regex you will be describing and what you will explain. In
 
 '^' means the string must begin with the characters succeeding the symbol
 
-    example: ^one
-    match: 'onetime'
-    no match: 'once'
+`^([a-z0-9_\.-]+)`
+
+    In this context, the '^' means the string must begin with a lowercase letter, digit, dash, or a period.
 
 '$' means the string must end with the characters preceding the symbol
 
-    example: one$
-    match: 'none'
-    no match: 'onee'
+`([a-z\.]{2,6})$`
+
+    This means the string may end with any of the preceeding ranges of characters
+
+
 
 ### Quantifiers
 
 '*' means the string begins with all character preceding the symbol - with the exception of the last character, where the string can be followed by any number of this (including zero)
 
-    example: one*
-    match: 'oneeeeeeee', 'on'
-
 '+' means the string begins with all characters preceding the symbol, including the last character - but the last character can repeat
-
-    example: one+
-    match: 'one', 'oneeeeeeeeeeeee'
-    no match: 'on'
 
 '{}' means the string begins with all characters preciding the symbol; within the bracket contains the number of instances of the last character. {x} means it occurs exactly x times, {x,} means it occurs x or more times, and {x,y} meansit occurs between x and y times
 
-    example: one{3}
-    match: 'oneee'
-    no match: 'onee'
+`[a-z\.]{2,6}`
 
-    example: one{3,}
-    match: 'oneee', 'oneeeeeeeeee'
-    no match: 'onee'
-
-    example: one{2,4}
-    match: 'onee', 'oneeee', 'oneee'
-    no match: 'on', 'oneeeee'
+    The {2,6} means that the characters within the brackets may appear anywhere from 2-6 times.
 
 ### OR Operator
 
@@ -79,6 +68,10 @@ Briefly summarize the regex you will be describing and what you will explain. In
     partial: '41'
     no match: 'four'
 
+`^([\da-z\.-]...`
+
+    In this context, this part of a string can bein with a digit (remember the '^' symbol)
+
 '\w' refers to a single letter, number, or underscore
 
     match: '_', '5', 'z'
@@ -89,6 +82,10 @@ Briefly summarize the regex you will be describing and what you will explain. In
     match: ' '
 
 '.' refers to any single character
+
+`^[a-z0-9_\.-]+`
+
+    Referring to this part of the regex again, the '\.' in combination with the preceding '^' symbol means this string may begin with a period. The '\' is an escape symbol, nullifying any other meaning the '.' has.
 
 '\D', '\W', and '\S' refers to the inverse of their lowercase counterparts
 
@@ -104,11 +101,11 @@ Briefly summarize the regex you will be describing and what you will explain. In
 
 '()' will group the characters inside the parentheses together, allowing for use of multiple characters for a single command
 
-    example: ^(on)
-    match: 'one'
-    no match: 'oen'
+`^([a-z0-9_\.-]+)`
 
-'?:' allows for the entire 
+    The parentheses means that the '^' symbol can refer to any of the symbols within the parentheses (aside from the '+', but for a reason to be explained later)
+
+'?:' allows for the entire
 
     example: o(?:ne)
     'one' would be a complete match
@@ -116,7 +113,7 @@ Briefly summarize the regex you will be describing and what you will explain. In
     example: o(ne)
     'one' would place 'ne' inside its own group
 
-`?<someName>` will simply give a name to the group in question
+?\<someName> will simply give a name to the group in question
 
     example: o(ne) places 'ne' in its own group, while o(?<someName>ne) does the same thing, yet defines said group's name
 
@@ -124,25 +121,25 @@ Briefly summarize the regex you will be describing and what you will explain. In
 
 '[]' acts the same as OR operators, except it won't acknowledge repeats, even if they're the same characters
 
-    example: o[ne]
-    match: 'on'
-    partial: 'onnnne' (only the first two characters)
+`^[a-z0-9_\.-]`
+
+    The brackets in this part of the regex means that the preceding character can any one of the parts within them.
 
 '[x-y]' hyphens will separate the lower and upper limit
 
-    example: [1-6] references the numbers 1, 2, 3, 4, 5, or 6
+`a-z0-9`
 
-    example: [a-e] references the letters a, b, c, d, e
+    These two parts of the regex refer to any lowercase letter from a-z, and any digit from 0-9
 
-    example: [a-z] references all lowercase letters
 
 
 ### Greedy and Lazy Match
 
 '*', '+', and '{}' will make the match as large as possible.
 
-    example: x+y
-    complete match: 'xy333333333yxy333333333y'
+`([a-z0-9_\.-]+)`
+
+    The '+' here means that the string may begin with (due to the synergy with the '^') the characters within the brackets, with no limit to how many.
 
 '?' will negate this:
 
@@ -192,6 +189,16 @@ Briefly summarize the regex you will be describing and what you will explain. In
     match: 'no'
     no match: 'on', 'o'
 
+### Conclusion
+
+The regex may begin with any number of characters as long as they range from 'a-z', '0-9', '_' or '.'
+
+It will then be followed by the '@' character, followed by any number of characters as long as they range from 'a-z', or they are a '.', '-' or a digit.
+
+It will then be followed by a dot as well some digits that range from 'a-z' or a '.' - there may be anywhere from 2-6 of these digits. Afterwards, the string must come to an end.
+
 ## Author
 
-A short section about the author with a link to the author's GitHub profile (replace with your information and a link to your profile)
+My name is Peter Christiansen and I am an aspiring full-stack web developer.
+
+If you have any questions, you can email me at peterjinchristiansen@gmail.com. You can access my other projects at https://github.com/peterjinchristiansen.
